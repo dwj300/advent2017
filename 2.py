@@ -1,4 +1,5 @@
-#!/usr/local/bin/python3
+#!/usr/bin/env python3
+
 def calc(lines):
     s = 0
     for l in lines:

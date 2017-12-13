@@ -25,11 +25,8 @@ def build_graph(in_txt):
  
 def num_connections(in_txt):
     graph = build_graph(in_txt)
-    count = 0
-    for k in graph.keys():
-        if reachable(graph, k, []):
-            count += 1
-    return count
+    return sum([reachable(graph, k, []) for k in graph.keys()])
+    
 
 def docolor(colors, k, color, graph):
     if k in colors:
@@ -41,10 +38,7 @@ def docolor(colors, k, color, graph):
 def num_groups(in_txt):
     graph = build_graph(in_txt)
     colors = {}
-    #for k in graph.keys():
-    #    colors[k] = k
-    for k in graph.keys():
-        docolor(colors, k, k, graph)
+    [docolor(colors, k, k, graph) for k in graph.keys()]
     return len(set(list(colors.values())))
 
 if __name__ == "__main__":

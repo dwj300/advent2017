@@ -1,6 +1,4 @@
-import binascii
-import numpy as np
-from scipy.ndimage.measurements import label
+#!/usr/bin/env python3
 from functools import reduce
 a = ['0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f']
 def part1(in_txt):
@@ -55,18 +53,27 @@ def part2(in_txt):
     a = []
     for i in range(128):
         a.append([int(i) for i in calc("{0}-{1}".format(in_txt, i))])
-    #print(a)
-    arr = np.array(a)
-    structure = np.array([[0,1,0],[1,1,1],[0,1,0]])
-    labeled, ncomponents = label(arr, structure)
-    return ncomponents
+    c = 0
+    colors = {}
+    for i in range(128):
+        for j in range(128):
+            color(a, i, j, colors, c)
+            c += 1
+    return len(set(colors.values()))
+
+def color(a, x, y, colors, c):
+    if x < 0 or x >= 128 or y < 0 or y >= 128:
+        return
+    if a[x][y] == 0 or (x,y) in colors:
+        return
+    colors[(x,y)] = c
+    for (i,j) in [(1,0),(-1,0),(0,1),(0,-1)]:
+        color(a,x+i,y+j,colors,c)
 
 if __name__ == "__main__":
-    calc("")
     sample = "flqrgnkx"
     assert(part1(sample) == 8108)
     assert(part2(sample) == 1242)
-    #with open("14_in.txt") as f:
     in_txt = "jzgqcdpd"
     print("Part 1: {0}".format(part1(in_txt)))
     print("Part 2: {0}".format(part2(in_txt)))

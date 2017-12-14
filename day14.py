@@ -3,18 +3,13 @@ from functools import reduce
 from day10 import *
 
 def part1(in_txt):
-    used = 0
-    for i in range(128):
-        used += calc("{0}-{1}".format(in_txt, i)).count('1')
-    return used
+    return sum(map(lambda i: calc("{0}-{1}".format(in_txt, i)).count('1'), range(128)))
 
 def calc(knot):
     return "".join(list(map(lambda c: "{:04b}".format(int(c,16)), strhash(knot))))
 
 def part2(in_txt):
-    a = []
-    for i in range(128):
-        a.append([int(i) for i in calc("{0}-{1}".format(in_txt, i))])
+    a = [[int(j) for j in calc("{0}-{1}".format(in_txt, i))] for i in range(128)]
     c = 0
     colors = {}
     for i in range(128):

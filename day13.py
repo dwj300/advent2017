@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import copy
 from itertools import count
+
 def severity(text):
     weights = _parse_input(text)
     penalty = 0
@@ -41,7 +42,6 @@ def caught(weights, delay):
 
 def delay2(text):
     weights = _parse_input(text)
-    #return any(map(lambda x: caught(weights, x), next(d for d in count())))
     i = 0
     while True:
         if caught(weights, i):

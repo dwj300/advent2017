@@ -43,17 +43,16 @@ def other(i):
 
 def part2(in_txt):
     instructions = in_txt.split('\n')
-    registers = [{k:0 for k in list(string.ascii_lowercase)}, {k:0 for k in list(string.ascii_lowercase)}]
+    registers = [{k:0 for k in list(string.ascii_lowercase)} for _ in range(2)]
     registers[1]['p'] = 1
     send = [[],[]]
     pc = [0,0]
     cur = 0
     count = 0
     alive = [True, True]
+     
     while (alive[0] or alive[1]) and ((pc[0] < len(instructions) and pc[0] >= 0) or (pc[1] < len(instructions) and pc[1] >= 0)):
-        instruction = instructions[pc[cur]]
-        parts = instruction.split(' ')
-        #print("Curent {0}, parts: {1}".format(cur, parts))
+        parts = instructions[pc[cur]].split(' ')
         if parts[0] == "set":
             try:
                 registers[cur][parts[1]] = int(parts[2])
@@ -69,7 +68,6 @@ def part2(in_txt):
                 send[other(cur)].append(int(parts[1]))
             except:
                 send[other(cur)].append(registers[cur][parts[1]])
-            print("[{0}]-{1}sending{2}".format(pc[cur], cur, send[other(cur)]))
             if cur == 1:
                 count += 1
                 cur = 0
@@ -89,7 +87,6 @@ def part2(in_txt):
                 registers[cur][parts[1]] %= registers[cur][parts[2]]
         elif parts[0] == "rcv":
             if len(send[cur]) > 0:
-                print("{0}Receiving{1}".format(cur,send[cur][0]))
                 registers[cur][parts[1]] = send[cur].pop(0)
                 alive[cur] = True
             else:
@@ -146,8 +143,12 @@ rcv c
 rcv d"""
     assert(part1(sample) == 4)
     assert(part2(sample2) == 3)
+    in_txt = None
     with open("18_in.txt") as f:
         in_txt = f.read().strip()
-        print(in_txt)
-        print("Part 1: {0}".format(part1(in_txt)))
-        print("Part 2: {0}".format(part2(in_txt)))
+    p1 = part1(in_txt)
+    p2 = part2(in_txt)
+    print("Part 1: {0}".format(p1))
+    print("Part 2: {0}".format(p2))
+    assert(p1 == 3423)
+    assert(p2 == 7493)

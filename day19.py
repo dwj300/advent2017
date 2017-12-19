@@ -11,14 +11,10 @@ def traverse(in_txt):
         if char == '|' or char == '-':
             i,j = [sum(x) for x in zip((i,j), dirs[cur_dir])]
         elif char == '+':
-            check = ['d', 'u']
-            if cur_dir in ['d', 'u']:
-                check = ['l', 'r']
-            for o in check:
+            for o in['d', 'u'] if cur_dir in ['l', 'r'] else ['l', 'r']:
                 ti,tj = i + dirs[o][0], j + dirs[o][1]
                 if ti >= 0 and ti < len(graph[0]) and tj >= 0 and tj < len(graph) and graph[tj][ti] != ' ':
-                    i,j = ti,tj
-                    cur_dir = o
+                    i,j, cur_dir = ti,tj, o
                     break
         elif char != ' ':
             seen += graph[j][i]
